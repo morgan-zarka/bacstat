@@ -1,26 +1,37 @@
 import folium
+import pandas as pd
+import branca
+import json
 
 def main():    
-    years = [2023, 2024]
+    with open("generated-datas/france-departements-with-datas.geojson", 'r', encoding='utf-8') as f:
+        geojson_data = json.load(f)
 
-    coords = (46.539758, 2.430331)
-    map = folium.Map(location=coords, tiles='OpenStreetMap', zoom_start=6)
-    sf = lambda x :{'fillColor':"#28B463", 'fillOpacity':0.5, 'color':'#E84000', 'weight':1, 'opacity':1}
+
+    bac_results = pd.read_csv("datas/bac-results.csv", encoding='utf-8', delimiter=';')
+    years = bac_results['Session'].unique()
 
     for year in years:
+        coords = (46.539758, 2.430331)
+        map = folium.Map(location=coords, tiles='OpenStreetMap', zoom_start=6)
+        sf = lambda x: {'fillColor': "#28B463", 'fillOpacity': 0.5, 'color': '#E84000', 'weight': 1, 'opacity': 1}
 
-      popup = folium.GeoJsonPopup(fields=["displayed_name", f"candidats_{year}", f"admitted_{year}", f"successRate_{year}"], aliases=["", "Nombre de candidats", "Nombre d'admis", "Taux de réussite (%)"], max_width=300)
+        for feature in geojson_data['features']:
+            properties = feature['properties']
+            
+            popup_html = properties.get(f'popup_html_{year}', '<p>Pas de données</p>')
+            
+            iframe = branca.element.IFrame(html=popup_html, width=320, height=200)
+            popup = folium.Popup(iframe, max_width=350)
+            
+            folium.GeoJson(
+                data=feature,
+                style_function=sf,
+                popup=popup,
+                popup_keep_highlighted=True,
+            ).add_to(map)
 
-      folium.GeoJson(
-        data="generated-datas/france-departements-with-datas.geojson",
-        name="france",
-        style_function= sf,
-        popup=popup,
-        popup_keep_highlighted=True,
-      ).add_to(map)
-
-
-      map.save(outfile=f'maps/{year}.html')
+        map.save(outfile=f'maps/{year}.html')
 
     return None
 
