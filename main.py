@@ -5,27 +5,26 @@ import os
 
 data = pd.read_csv('./datas/bac-results.csv', encoding='utf-8', delimiter=';')
 
-app = Dash()
+app = Dash(__name__)
 
 app.layout = [
-    html.H1(children='Statistiques Baccalauréat par Département', style={'textAlign':'center'}),
-    dcc.Dropdown(
-        options=[{'label': str(year), 'value': year} for year in sorted(data['Session'].unique())],
-        value=2024, 
-        clearable=False,
-        id='dropdown-selection',
-        style={'width': '300px', 'margin': '20px auto'}
+    html.Header(
+        children=[
+          html.H1(children='Statistiques Baccalauréat par Département', style={'textAlign':'center'}),
+          dcc.Dropdown(
+            options=[{'label': str(year), 'value': year} for year in sorted(data['Session'].unique())],
+            value=2024, 
+            clearable=False,
+            id='dropdown-selection',
+            style={'width': '75px', 'margin': '20px auto'}
+          )
+        ]
     ),
     html.Iframe(
         id='map-iframe',
         src='/assets/maps/2024.html',
-        width='100%',
-        height='600px',
-        style={
-            'border': '1px solid #ddd', 
-            'margin-top': '20px',
-            'border-radius': '5px'
-        }
+        width='80%',
+        height='750px',
     )
 ]
 
