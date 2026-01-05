@@ -1,29 +1,35 @@
 import geojson, geopandas
 import pandas as pd
 
-def create_popup_html(dpt_name, candidats, admitted, success_rate, year):    
+def create_popup_html(dpt_name, dpt_number, candidats, admitted, success_rate, year):    
     html = f"""
-    <div style="font-family: Arial, sans-serif; width: 300px;">
-        <h3 style="color: #2C3E50; margin-bottom: 10px; text-align: center;">{dpt_name}</h3>
+    
+    <div style="font-family: Arial, sans-serif; width: 300px; background-color: #000091; border-radius: 10px; color: #FFFFFF; padding: 16px 24px; font-family: sans-serif;">
+        <p style="margin: 0;">Département {dpt_number}</p>
+        <h3 style="margin-bottom: 15px; font-size: 2rem; margin-top: 5px;">{dpt_name}</h3>
         <hr style="border: 1px solid #BDC3C7;">
         
-        <div style="margin: 10px 0;">
-            <strong>👥 Candidats:</strong> 
-            <span style="color: #3498DB; font-weight: bold;">{candidats:,}</span>
-        </div>
-        
-        <div style="margin: 10px 0;">
-            <strong>✅ Admis:</strong> 
-            <span style="color: #27AE60; font-weight: bold;">{admitted:,}</span>
-        </div>
-        
-        <div style="margin: 10px 0;">
-            <strong>📊 Taux de réussite:</strong> 
-            <span style="color: #E74C3C; font-weight: bold; font-size: 16px;">{success_rate:.1f}%</span>
+        <h4 style="font-size: 1.5rem; margin-bottom: 0; margin-top: 10px;">Chiffres</h4>
+        <ul style="margin-left: -20px; margin-top: 5px; font-size: 1.15rem; line-height: 1.5;">
+            <li>{candidats:,} candidats</li>
+            <li>{admitted:,} admis</li>
+            <li>{success_rate:.1f}% de réussite</li>
+        </ul>
+
+        <h4 style="font-size: 1.5rem; margin-bottom: 0; margin-top: 10px;">Légende</h4>
+
+        <div style="display: flex; align-items: center; margin-top: 15px;">
+            <div style="width: 50px; height: 20px; background-color: #3030ED; margin-right: 10px; border: 1px solid #FFFFFF;"></div>
+            <p style="margin: 0;">Hommes</p>
         </div>
 
-        <a href="https://data.education.gouv.fr/explore/dataset/fr-en-baccalaureat-par-departement/information/?disjunctive.code_academie&disjunctive.academie&disjunctive.code_departement&disjunctive.departement&sort=session" target="_blank" style="margin-top: 15px; padding: 8px; background-color: #ECF0F1; border-radius: 4px; font-size: 12px; color: #7F8C8D; text-align: center; display: block; text-decoration: none;">
-            💡 Données Baccalauréat {year}
+        <div style="display: flex; align-items: center; margin-top: 15px;">
+            <div style="width: 50px; height: 20px; background-color: #910059; margin-right: 10px; border: 1px solid #FFFFFF;"></div>
+            <p style="margin: 0;">Femmes</p>
+        </div>
+
+        <a href="https://data.education.gouv.fr/explore/dataset/fr-en-baccalaureat-par-departement/information/?disjunctive.code_academie&disjunctive.academie&disjunctive.code_departement&disjunctive.departement&sort=session" target="_blank" style="margin-top: 15px; padding: 8px; background-color: #ECF0F1; border-radius: 4px; font-size: 12px; color: #000091; display: block; text-decoration: none; text-align: center;">
+            Données Baccalauréat {year}
         </a>
     </div>
     """
@@ -41,8 +47,6 @@ def main():
     for idx, dpt in france.iterrows():
         dpt_code = dpt['code']
 
-        display_name = f"{dpt_code} : {dpt['nom']}"
-
         dpt_code = '620' if dpt_code == '2A' else dpt_code
         dpt_code = '720' if dpt_code == '2B' else dpt_code
 
@@ -54,7 +58,8 @@ def main():
             success_rate = (admitted / candidats * 100) if candidats > 0 else 0.0
 
             popup_html = create_popup_html(
-                display_name,
+                dpt['nom'],
+                dpt_code,
                 int(candidats),
                 int(admitted),
                 float(success_rate),

@@ -14,15 +14,17 @@ def main():
     for year in years:
         coords = (46.539758, 2.430331)
         map = folium.Map(location=coords, tiles='OpenStreetMap', zoom_start=6)
-        sf = lambda x: {'fillColor': "#28B463", 'fillOpacity': 0.5, 'color': '#E84000', 'weight': 1, 'opacity': 1}
+        
+        sf = lambda x: {'fillColor': "#77A8D6", 'fillOpacity': 0.5, 'color': '#000091', 'weight': 1, 'opacity': 1}
+
 
         for feature in geojson_data['features']:
             properties = feature['properties']
             
             popup_html = properties.get(f'popup_html_{year}', '<p>Pas de données</p>')
             
-            iframe = branca.element.IFrame(html=popup_html, width=320, height=200)
-            popup = folium.Popup(iframe, max_width=350)
+            iframe = branca.element.IFrame(html=popup_html, width=700, height=425)
+            popup = folium.Popup(iframe, max_width=700)
             
             folium.GeoJson(
                 data=feature,
