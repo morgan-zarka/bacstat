@@ -6,7 +6,7 @@ def create_popup_html(dpt_name, dpt_number, candidats, admitted, success_rate, y
     
     <div style="font-family: Arial, sans-serif; width: 300px; background-color: #000091; border-radius: 10px; color: #FFFFFF; padding: 16px 24px; font-family: sans-serif;">
         <p style="margin: 0;">Département {dpt_number}</p>
-        <h3 style="margin-bottom: 15px; font-size: 2rem; margin-top: 5px;">{dpt_name}</h3>
+        <h3 style="margin-bottom: 15px; font-size: 1.5rem; margin-top: 5px;">{dpt_name}</h3>
         <hr style="border: 1px solid #BDC3C7;">
         
         <h4 style="font-size: 1.5rem; margin-bottom: 0; margin-top: 10px;">Chiffres</h4>

@@ -31,6 +31,11 @@
     font-display: swap;
 }
 
+html{
+    scroll-behavior: smooth;
+    scroll-padding-top: 115px;
+}
+
 body{  
     margin: 0;
     font-family: 'marianne', sans-serif;
@@ -42,10 +47,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 1000;
     padding: 25px 20px;
+    width: 100%;
 }
 
 header *{
@@ -59,4 +65,8 @@ iframe#map-iframe {
     margin-top: 20px;
     border-radius: 5px;
     display: block;
+}
+
+p {
+    max-width: 80ch;
 }
