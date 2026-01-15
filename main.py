@@ -37,11 +37,15 @@ def update_map(selected_year):
 
 if __name__ == '__main__':
     assets_maps_dir = 'assets/maps'
-    if not os.path.exists(assets_maps_dir):
-        os.makedirs(assets_maps_dir)
+    if os.path.exists(assets_maps_dir):
         import shutil
-        for file in os.listdir('maps/'):
-            if file.endswith('.html'):
-                shutil.copy(f'maps/{file}', f'{assets_maps_dir}/{file}')
-    
+        shutil.rmtree(assets_maps_dir)
+
+    os.makedirs(assets_maps_dir)
+
+    import shutil
+    for file in os.listdir('maps/'):
+        if file.endswith('.html'):
+            shutil.copy(f'maps/{file}', f'{assets_maps_dir}/{file}')
+
     app.run(debug=True)

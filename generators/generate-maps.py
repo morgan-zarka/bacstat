@@ -23,7 +23,7 @@ def main():
             
             popup_html = properties.get(f'popup_html_{year}', '<p>Pas de données</p>')
             
-            iframe = branca.element.IFrame(html=popup_html, width=700, height=425)
+            iframe = branca.element.IFrame(html=popup_html, width=700, height=440)
             popup = folium.Popup(iframe, max_width=700)
             
             folium.GeoJson(
