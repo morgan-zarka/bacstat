@@ -78,3 +78,29 @@ bacstat/
 ├── readme.md                   # Guide d'utilisation et informations sur le projet
 └── requirements.txt            # Fichier listant les dépendances Python
 ```
+
+Le dashboard a été pensé comme un site one-page. Il n'y a donc qu'un seul fichier principal `main.py` qui contient toute la logique de l'application. L'arborescence n'a pas été pensée pour permettre la création de pages supplémentaires.
+
+Les données brutes sont stockées dans le dossier `datas/`. Les scripts de génération dans le dossier `generators/` permettent de créer les fichiers nécessaires à l'application, qui sont ensuite stockés dans les dossiers `generated-datas/` et `maps/`.
+
+Les informations présentes dans les popups des cartes interactives sont générées au sein du fichier `generate-datas.py`, qui inclue le code HTML de ces popups.
+
+Lors de l'execution de main.py, une copie statique des cartes interactives est générée dans le dossier `assets/maps/` pour être utilisée dans l'application Dash.
+
+## Rapport d'analyse
+Une fois le projet finalisé, nous avons utilisé notre application pour analyser les résultats du baccalauréat en France métropolitaine et dans les départements d'outre-mer. Voici un résumé des principales observations :
+1. **Taux de réussite global** :
+   - Le taux de réussite au baccalauréat a montré une tendance à la hausse au fil des années, avec des variations selon les départements.
+2. **Disparités des genres** :
+   - Les femmes ont généralement un taux de réussite plus élevé que les hommes, avec des écarts plus prononcés dans certains départements.
+3. **Variations régionales** :
+   - Certains départements, notamment ceux des zones urbaines, ont bien plus de participants comparés aux départements ruraux.
+
+## Copyright
+Nous déclarons sur l’honneur que le code fourni a été produit par nous même (Morgan ZARKA et Ines TEMMAR), à l’exception du fichier generate-all.py qui a été en grande partie générée à l'aide de l’outil GitHub Copilot.
+
+Cet outil a d'ailleurs été utilisé pour débugger certaines parties du code au sein de l'intégralité du projet. Cependant, nous avons veillé à comprendre et à valider chaque ligne de code produite par cet outil avant de l’intégrer dans notre projet. De plus, nous avons apporté des modifications au code généré pour l’adapter à nos besoins spécifiques.
+
+Github copilot a été utilisé comme un simple assistant de programmation, en mode "Ask", et non comme un outil de génération automatique de code sans intervention humaine (ou d'auto-complétion).
+
+Nous sommes conscients que l’absence ou l’omission de déclaration de source sera considéré comme du plagiat.
