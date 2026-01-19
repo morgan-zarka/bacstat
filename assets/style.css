@@ -39,6 +39,7 @@ html{
 body{  
     margin: 0;
     font-family: 'marianne', sans-serif;
+    font-weight: 300;
 }
 
 header {
@@ -69,4 +70,18 @@ iframe#map-iframe {
 
 p {
     max-width: 80ch;
+}
+
+header div {
+    color: #000;
+}
+
+div.footer {
+    background-color: #000091;
+    color: white;
+    padding: 20px 40px;
+}
+
+div.footer a {
+    color: white;
 }
