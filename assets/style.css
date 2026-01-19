@@ -1,0 +1,87 @@
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'marianne';
+    src:url('/assets/fonts/Marianne-Regular.woff2') format('woff2'),
+        url('/assets/fonts/Marianne-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'marianne';
+    src:url('/assets/fonts/Marianne-ExtraBold.woff2') format('woff2'),
+        url('/assets/fonts/Marianne-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'marianne';
+    src:url('/assets/fonts/Marianne-Light.woff2') format('woff2'),
+        url('/assets/fonts/Marianne-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+html{
+    scroll-behavior: smooth;
+    scroll-padding-top: 115px;
+}
+
+body{  
+    margin: 0;
+    font-family: 'marianne', sans-serif;
+    font-weight: 300;
+}
+
+header {
+    background-color: #000091;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    padding: 25px 20px;
+    width: 100%;
+}
+
+header *{
+    margin: 0 !important;
+}
+
+iframe#map-iframe {
+    border: 1px solid #ddd;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    display: block;
+}
+
+p {
+    max-width: 80ch;
+}
+
+header div {
+    color: #000;
+}
+
+div.footer {
+    background-color: #000091;
+    color: white;
+    padding: 20px 40px;
+}
+
+div.footer a {
+    color: white;
+}
