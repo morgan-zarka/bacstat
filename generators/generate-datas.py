@@ -2,6 +2,7 @@ import geojson, geopandas
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
+import os
 
 def create_popup_html(dpt_name, dpt_number, candidats, admitted, success_rate, year, m_rate, f_rate):
     df_mini = pd.DataFrame({
@@ -112,6 +113,9 @@ def main():
     france_with_data = geopandas.GeoDataFrame(l)
     france_with_data.crs = france.crs
 
+    os.makedirs("generated-datas", exist_ok=True)
+
+    # écriture dans un fichier
     with open("generated-datas/france-departements-with-datas.geojson", "w") as f:
         geojson.dump(france_with_data, f)
 
