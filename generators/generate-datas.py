@@ -1,5 +1,6 @@
 import geojson, geopandas
 import pandas as pd
+import os
 
 def create_popup_html(dpt_name, dpt_number, candidats, admitted, success_rate, year):    
     html = f"""
@@ -72,6 +73,8 @@ def main():
     # construction de la GeoDataFrame correspondante
     france_with_data = geopandas.GeoDataFrame(l)
     france_with_data.crs = france.crs
+
+    os.makedirs("generated-datas", exist_ok=True)
 
     # écriture dans un fichier
     with open("generated-datas/france-departements-with-datas.geojson", "w") as f:

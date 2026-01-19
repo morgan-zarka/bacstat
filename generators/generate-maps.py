@@ -2,6 +2,7 @@ import folium
 import pandas as pd
 import branca
 import json
+import os
 
 def main():    
     with open("generated-datas/france-departements-with-datas.geojson", 'r', encoding='utf-8') as f:
@@ -10,6 +11,8 @@ def main():
 
     bac_results = pd.read_csv("datas/bac-results.csv", encoding='utf-8', delimiter=';')
     years = bac_results['Session'].unique()
+
+    os.makedirs("maps", exist_ok=True)
 
     for year in years:
         coords = (46.539758, 2.430331)
