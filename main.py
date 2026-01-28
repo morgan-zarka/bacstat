@@ -92,8 +92,9 @@ app.layout = [
                         children='Comparaison',
                         style={'fontWeight': '800', 'fontSize':'2.5rem', 'marginTop': '0'}
                     ),
-                    dcc.Graph(id='gender-comparison-bar-chart'),
-                ]
+                    dcc.Graph(id='gender-comparison-bar-chart', style={'height': '500px'}),
+                ],
+                style={'flex': '1'}
             ),
             html.Div(
                 children=[
@@ -107,7 +108,7 @@ app.layout = [
                         children=[
                             html.Li(
                                 children=[
-                                    html.Span(id='male-pass-rate', style={'fontSize': '3rem', 'fontWeight': '800', 'lineHeight': '1'}),
+                                    html.Span(id='male-pass-rate', style={'fontSize': '4rem', 'fontWeight': '800', 'lineHeight': '1'}),
                                     html.Br(),
                                     html.Span(" des hommes", style={'fontSize': '1.5rem', 'fontWeight': '400'})
                                 ],
@@ -115,22 +116,24 @@ app.layout = [
                             ),
                             html.Li(
                                 children=[
-                                    html.Span(id='female-pass-rate', style={'fontSize': '3rem', 'fontWeight': '800', 'lineHeight': '1'}),
+                                    html.Span(id='female-pass-rate', style={'fontSize': '4rem', 'fontWeight': '800', 'lineHeight': '1'}),
                                     html.Br(),
                                     html.Span(" des femmes", style={'fontSize': '1.5rem', 'fontWeight': '400'})
                                 ],
                                 style={'color': '#910059'}
                             ),
                         ],
-                        style={'listStyleType': 'none', 'display': 'flex', 'gap': '20px'}
+                        style={'listStyleType': 'none', 'display': 'flex', 'gap': '40px', 'padding': '0'}
                     ),
                     html.P(
                         "ont obtenu leur Bac. La tendance reste similaire à travers les années. Nous constatons une légère supériorité des femmes dans les taux de réussite.",
+                        style={'fontSize': '1.2rem', 'marginTop': '20px'}
                     )
                 ],
+                style={'flex': '1'}
             )
         ],
-        style={'display': 'flex', 'justifyContent': 'space-between', 'padding': '40px 100px', 'marginTop': '40px'}
+        style={'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '80px 100px', 'gap': '60px'}
     ),
     html.Div(
         children=[
@@ -162,8 +165,8 @@ app.layout = [
 ]
 
 @callback(
-    [Output('map-iframe', 'src'), Output('map-description', 'children'), Output('comparison-description', 'children'), Output('male-pass-rate', 'children'), Output('female-pass-rate', 'children')],
-    Output('gender-comparison-bar-chart', 'figure'),Input('dropdown-selection', 'value')
+    [Output('map-iframe', 'src'), Output('map-description', 'children'), Output('comparison-description', 'children'), Output('male-pass-rate', 'children'), Output('female-pass-rate', 'children'), Output('gender-comparison-bar-chart', 'figure')],
+    Input('dropdown-selection', 'value')
 )
 def update_map(selected_year):
     map_description = f"Voici une carte des départements de France, avec les résultats du Bac pour l'année {selected_year}."
@@ -196,7 +199,12 @@ def update_map(selected_year):
         title=f"Taux de réussite national en {selected_year}"
     )
 
-    fig.update_layout(showlegend=False, yaxis_range=[0, 100])
+    fig.update_layout(
+        showlegend=False, 
+        yaxis_range=[0, 105],
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
+    fig.update_traces(textfont_size=18, textposition='outside')
 
     return f'/assets/maps/{selected_year}.html', map_description, comparison_description, f"{male_pass_rate:.1f}%", f"{female_pass_rate:.1f}%", fig
 
