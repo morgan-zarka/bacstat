@@ -166,30 +166,37 @@ app.layout = [
     Output('gender-comparison-bar-chart', 'figure'),Input('dropdown-selection', 'value')
 )
 def update_map(selected_year):
-    map_description = f"Voici une carte des départements de France, avec les résultats du Bac pour l'année {selected_year}. En cliquant sur un département, vous pouvez voir les taux de réussite et les différences entre femmes et hommes."
-    comparison_description = f"Cet histogramme permet de comparer les taux de réussite des femmes et des hommes au Bac en {selected_year}."
+    map_description = f"Voici une carte des départements de France, avec les résultats du Bac pour l'année {selected_year}."
+    comparison_description = f"Comparaison globale des taux de réussite nationaux entre femmes et hommes en {selected_year}."
     
     year_data = data[data['Session'] == selected_year]
 
-    fig = px.bar(
-        year_data, 
-        x="Département", 
-        y="Taux de réussite à l'examen", 
-        color="Genre", 
-        barmode="group",
-        color_discrete_map={'Masculin': '#000091', 'Féminin': '#910059'}, # On garde tes couleurs
-        title="Taux de réussite par département et par genre"
-    )
-
     male_data = year_data[year_data['Genre'] == 'Masculin']
-    male_total_present = male_data['Nombre de présents à l\'examen'].sum()
-    male_total_admis = male_data['Nombre d\'admis à l\'examen'].sum()
-    male_pass_rate = (male_total_admis / male_total_present) * 100 if male_total_present > 0 else 0
+    m_pres = male_data['Nombre de présents à l\'examen'].sum()
+    m_adm = male_data['Nombre d\'admis à l\'examen'].sum()
+    male_pass_rate = (m_adm / m_pres * 100) if m_pres > 0 else 0
 
     female_data = year_data[year_data['Genre'] == 'Féminin']
-    female_total_present = female_data['Nombre de présents à l\'examen'].sum()
-    female_total_admis = female_data['Nombre d\'admis à l\'examen'].sum()
-    female_pass_rate = (female_total_admis / female_total_present) * 100 if female_total_present > 0 else 0
+    f_pres = female_data['Nombre de présents à l\'examen'].sum()
+    f_adm = female_data['Nombre d\'admis à l\'examen'].sum()
+    female_pass_rate = (f_adm / f_pres * 100) if f_pres > 0 else 0
+
+    summary_df = pd.DataFrame({
+        "Genre": ["Masculin", "Féminin"],
+        "Taux de réussite": [male_pass_rate, female_pass_rate]
+    })
+
+    fig = px.bar(
+        summary_df, 
+        x="Genre", 
+        y="Taux de réussite", 
+        color="Genre",
+        text_auto='.1f',
+        color_discrete_map={'Masculin': '#000091', 'Féminin': '#910059'},
+        title=f"Taux de réussite national en {selected_year}"
+    )
+
+    fig.update_layout(showlegend=False, yaxis_range=[0, 100])
 
     return f'/assets/maps/{selected_year}.html', map_description, comparison_description, f"{male_pass_rate:.1f}%", f"{female_pass_rate:.1f}%", fig
 
