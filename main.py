@@ -81,12 +81,6 @@ app.layout = [
         style={'padding': '60px 130px'}
     ),
     html.Div(
-    children=[
-        dcc.Graph(id='gender-comparison-bar-chart')
-    ],
-    style={'padding': '0 100px'}
-),
-    html.Div(
         children=[
             html.Div(
                 children=[
@@ -97,7 +91,8 @@ app.layout = [
                     html.H2(
                         children='Comparaison',
                         style={'fontWeight': '800', 'fontSize':'2.5rem', 'marginTop': '0'}
-                    )
+                    ),
+                    dcc.Graph(id='gender-comparison-bar-chart'),
                 ]
             ),
             html.Div(
