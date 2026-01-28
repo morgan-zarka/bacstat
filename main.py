@@ -81,6 +81,12 @@ app.layout = [
         style={'padding': '60px 130px'}
     ),
     html.Div(
+    children=[
+        dcc.Graph(id='gender-comparison-bar-chart')
+    ],
+    style={'padding': '0 100px'}
+),
+    html.Div(
         children=[
             html.Div(
                 children=[
@@ -162,13 +168,24 @@ app.layout = [
 
 @callback(
     [Output('map-iframe', 'src'), Output('map-description', 'children'), Output('comparison-description', 'children'), Output('male-pass-rate', 'children'), Output('female-pass-rate', 'children')],
-    Input('dropdown-selection', 'value')
+    Output('gender-comparison-bar-chart', 'figure'),Input('dropdown-selection', 'value')
 )
 def update_map(selected_year):
     map_description = f"Voici une carte des départements de France, avec les résultats du Bac pour l'année {selected_year}. En cliquant sur un département, vous pouvez voir les taux de réussite et les différences entre femmes et hommes."
     comparison_description = f"Cet histogramme permet de comparer les taux de réussite des femmes et des hommes au Bac en {selected_year}."
-
+    
     year_data = data[data['Session'] == selected_year]
+
+    fig = px.bar(
+        year_data, 
+        x="Département", 
+        y="Taux de réussite à l'examen", 
+        color="Genre", 
+        barmode="group",
+        color_discrete_map={'Masculin': '#000091', 'Féminin': '#910059'}, # On garde tes couleurs
+        title="Taux de réussite par département et par genre"
+    )
+
     male_data = year_data[year_data['Genre'] == 'Masculin']
     male_total_present = male_data['Nombre de présents à l\'examen'].sum()
     male_total_admis = male_data['Nombre d\'admis à l\'examen'].sum()
@@ -179,7 +196,7 @@ def update_map(selected_year):
     female_total_admis = female_data['Nombre d\'admis à l\'examen'].sum()
     female_pass_rate = (female_total_admis / female_total_present) * 100 if female_total_present > 0 else 0
 
-    return f'/assets/maps/{selected_year}.html', map_description, comparison_description, f"{male_pass_rate:.1f}%", f"{female_pass_rate:.1f}%"
+    return f'/assets/maps/{selected_year}.html', map_description, comparison_description, f"{male_pass_rate:.1f}%", f"{female_pass_rate:.1f}%", fig
 
 if __name__ == '__main__':
     assets_maps_dir = 'assets/maps'
